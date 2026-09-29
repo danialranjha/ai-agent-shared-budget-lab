@@ -1,0 +1,14 @@
+[
+  {
+    "mutation": "remove_check_through_commit_transaction",
+    "detected": true,
+    "invariant_failures": 4,
+    "schedules": 6
+  },
+  {
+    "mutation": "replace_less_equal_with_strict_less",
+    "detected": true,
+    "benign_exact_fill_failures": 6,
+    "schedules": 6
+  }
+]

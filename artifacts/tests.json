@@ -1,0 +1,20 @@
+{
+  "tests_run": 12,
+  "passed": true,
+  "test_ids": [
+    "test_experiment.BudgetTests.test_actual_stale_read_witness",
+    "test_experiment.BudgetTests.test_all_primary_schedules",
+    "test_experiment.BudgetTests.test_atomic_contention_rechecks_current_balance",
+    "test_experiment.BudgetTests.test_benign_exact_fill_both_orders_preserved",
+    "test_experiment.BudgetTests.test_budget_key_is_a_trusted_scope_limit",
+    "test_experiment.BudgetTests.test_complete_fixture_invariant_and_determinism",
+    "test_experiment.BudgetTests.test_invalid_amounts_cannot_reduce_ledger",
+    "test_experiment.BudgetTests.test_invalid_scheduler_input_rejected",
+    "test_experiment.BudgetTests.test_large_request_refused_small_twin_works",
+    "test_experiment.BudgetTests.test_prior_balance_counted",
+    "test_experiment.BudgetTests.test_six_schedules_unique_and_ordered",
+    "test_experiment.BudgetTests.test_sqlite_itself_blocks_second_writer"
+  ],
+  "failures": 0,
+  "errors": 0
+}

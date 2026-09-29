@@ -1,0 +1,4023 @@
+{
+  "schema_version": 1,
+  "kind": "synthetic_two_connection_sqlite_reservations",
+  "scope": "No model, bot, checkout or payment. Schedules are not probabilities.",
+  "bucket": [
+    "owner-demo",
+    "day-demo"
+  ],
+  "fixture_count": 5,
+  "case_count": 60,
+  "counts": [
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "separate_check",
+      "schedules": 6,
+      "over_cap_schedules": 4,
+      "totals_cents": [
+        6000,
+        12000
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "atomic_reservation",
+      "schedules": 6,
+      "over_cap_schedules": 0,
+      "totals_cents": [
+        6000
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "separate_check",
+      "schedules": 6,
+      "over_cap_schedules": 0,
+      "totals_cents": [
+        10000
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "atomic_reservation",
+      "schedules": 6,
+      "over_cap_schedules": 0,
+      "totals_cents": [
+        10000
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "separate_check",
+      "schedules": 6,
+      "over_cap_schedules": 0,
+      "totals_cents": [
+        5000
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "atomic_reservation",
+      "schedules": 6,
+      "over_cap_schedules": 0,
+      "totals_cents": [
+        5000
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "separate_check",
+      "schedules": 6,
+      "over_cap_schedules": 4,
+      "totals_cents": [
+        7000,
+        12000
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "atomic_reservation",
+      "schedules": 6,
+      "over_cap_schedules": 0,
+      "totals_cents": [
+        7000
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "separate_check",
+      "schedules": 6,
+      "over_cap_schedules": 0,
+      "totals_cents": [
+        2000
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "atomic_reservation",
+      "schedules": 6,
+      "over_cap_schedules": 0,
+      "totals_cents": [
+        2000
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 6000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "refused"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 6000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 12000,
+      "over_cap": true,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 6000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 12000,
+      "over_cap": true,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 6000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 12000,
+      "over_cap": true,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 6000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 12000,
+      "over_cap": true,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 6000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 6000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 6000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 6000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "refused"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 6000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "B",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 6000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "refused"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "B",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 6000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "B",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 6000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "refused"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "B",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 6000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "B",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 6000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 6000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 6000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 6000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "overlapping_60_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        6000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 6000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 6000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 4000,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 4000,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        },
+        {
+          "request": "B",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 4000,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        },
+        {
+          "request": "B",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 4000,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        }
+      ]
+    },
+    {
+      "fixture": "exact_fill_40_60",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        4000,
+        6000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 10000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 4000
+        },
+        {
+          "id": "B",
+          "cents": 6000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 6000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 6000
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 6000,
+          "requested_cents": 4000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 4000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 3000,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "B",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "B",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 3000,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 3000,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "small_20_30",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        2000,
+        3000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 5000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 2000
+        },
+        {
+          "id": "B",
+          "cents": 3000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 3000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 3000
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 3000,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 7000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "refused"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 7000,
+          "requested_cents": 5000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 12000,
+      "over_cap": true,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 5000
+        },
+        {
+          "id": "B",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 5000
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 12000,
+      "over_cap": true,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 5000
+        },
+        {
+          "id": "B",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 5000
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 12000,
+      "over_cap": true,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 5000
+        },
+        {
+          "id": "B",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 5000
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 12000,
+      "over_cap": true,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 5000
+        },
+        {
+          "id": "B",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 5000
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 7000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 7000,
+          "requested_cents": 5000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 7000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "refused"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 7000,
+          "requested_cents": 5000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "B",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 7000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "refused"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "B",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 7000,
+          "requested_cents": 5000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "B",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 7000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "A",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "reserved",
+        "B": "refused"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "B",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 7000,
+          "requested_cents": 5000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "B",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 7000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 7000,
+          "requested_cents": 5000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 7000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 7000,
+          "requested_cents": 5000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "prior_20_then_50_50",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        5000,
+        5000
+      ],
+      "initial_cents": 2000,
+      "cap_cents": 10000,
+      "total_cents": 7000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 5000
+        },
+        {
+          "id": "prior",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 5000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 5000
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 7000,
+          "requested_cents": 5000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "separate_check",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "separate_check",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "A.finish",
+        "B.check",
+        "B.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "A.check",
+        "B.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "A.finish",
+        "B.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "A.check",
+        "B.finish",
+        "A.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "A",
+          "event": "busy_no_decision"
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "A",
+          "event": "finish_deferred_until_fresh_check"
+        },
+        {
+          "request": "A",
+          "event": "fresh_retry"
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    },
+    {
+      "fixture": "one_too_large",
+      "mode": "atomic_reservation",
+      "schedule": [
+        "B.check",
+        "B.finish",
+        "A.check",
+        "A.finish"
+      ],
+      "costs_cents": [
+        11000,
+        2000
+      ],
+      "initial_cents": 0,
+      "cap_cents": 10000,
+      "total_cents": 2000,
+      "over_cap": false,
+      "rows": [
+        {
+          "id": "B",
+          "cents": 2000
+        }
+      ],
+      "outcomes": {
+        "A": "refused",
+        "B": "reserved"
+      },
+      "trace": [
+        {
+          "request": "B",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "B",
+          "event": "read_and_check",
+          "seen_cents": 0,
+          "requested_cents": 2000,
+          "permitted": true
+        },
+        {
+          "request": "B",
+          "event": "reservation_committed",
+          "cents": 2000
+        },
+        {
+          "request": "A",
+          "event": "write_transaction_acquired"
+        },
+        {
+          "request": "A",
+          "event": "read_and_check",
+          "seen_cents": 2000,
+          "requested_cents": 11000,
+          "permitted": false
+        },
+        {
+          "request": "A",
+          "event": "rollback_refusal"
+        },
+        {
+          "request": "A",
+          "event": "no_reservation"
+        }
+      ]
+    }
+  ]
+}
